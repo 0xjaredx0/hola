@@ -110,11 +110,17 @@
     // Notificar visita al cargar
     window.onload = function() {
       overlay.style.display = 'flex';
-      fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
-        method: "POST",
-        headers: { "Title": "Nueva visita", "Priority": "default" },
-        body: `Alguien ingresó a la página.\nHora: ${new Date().toLocaleString()}\nUserAgent: ${navigator.userAgent}`
-      });
+      // Obtener IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          const ip = data.ip;
+          fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
+            method: "POST",
+            headers: { "Title": "Nueva visita", "Priority": "default" },
+            body: `Alguien ingresó a la página.\nHora: ${new Date().toLocaleString()}\nUserAgent: ${navigator.userAgent}\nIP: ${ip}`
+          });
+        });
     };
 
     acceptAllBtn.addEventListener('click', function() {
