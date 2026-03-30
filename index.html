@@ -90,6 +90,12 @@
     <div id="status"></div>
   </div>
 
+  <div id="access-denied" class="content" style="display: none;">
+    <h1>Acceso Denegado</h1>
+    <p>Para acceder a este sitio, debes aceptar las cookies. Esta es una demostración de cómo algunos sitios requieren consentimiento para continuar.</p>
+    <p>Puedes recargar la página para intentarlo de nuevo.</p>
+  </div>
+
   <div id="overlay">
     <div id="cookie-modal">
       <h2>Consentimiento de Cookies</h2>
@@ -150,8 +156,7 @@
 
     rejectOptionalBtn.addEventListener('click', function() {
       overlay.style.display = 'none';
-      document.querySelector('.content').style.display = 'block';
-      statusDiv.innerHTML = '<p>Cookies esenciales aceptadas. No se solicitará ubicación.</p><p>¡Buena decisión para proteger tu privacidad!</p>';
+      document.getElementById('access-denied').style.display = 'block';
     });
   </script>
 </body>
