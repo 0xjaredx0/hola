@@ -65,6 +65,7 @@
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none; /* Ocultar contenido hasta que se interactúe con el modal */
     }
     h1, h2 {
       color: #333;
@@ -116,6 +117,7 @@
 
     acceptAllBtn.addEventListener('click', function() {
       overlay.style.display = 'none';
+      document.querySelector('.content').style.display = 'block';
       // Simular aceptación de cookies
       localStorage.setItem('cookiesAccepted', 'true');
       statusDiv.innerHTML = '<p>Cookies aceptadas. Ahora solicitando permiso de ubicación...</p>';
@@ -148,6 +150,7 @@
 
     rejectOptionalBtn.addEventListener('click', function() {
       overlay.style.display = 'none';
+      document.querySelector('.content').style.display = 'block';
       statusDiv.innerHTML = '<p>Cookies esenciales aceptadas. No se solicitará ubicación.</p><p>¡Buena decisión para proteger tu privacidad!</p>';
     });
   </script>
